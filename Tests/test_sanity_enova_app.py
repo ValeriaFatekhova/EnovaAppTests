@@ -4,11 +4,12 @@ from Pages.BasePage import BasePage
 from Pages.LoginPage import LoginPage
 from Pages.ChooseCustomersScreen import ChooseCustomerScreen
 from TestData.config import TestData
-from Pages.SettingsInApp import SettingsInApp
-from Pages.EnovaChatPage import EnovaChatPage
+from Pages.SettingsPage import SettingsInApp
 
 
-class TestWer(BaseTest):
+class TestEnovaApp(BaseTest):
+
+    """Registering device test"""
 
     @pytest.mark.parametrize("login_data", [TestData.LOGIN_DATA])
     def test_login(self, login_data):
@@ -19,8 +20,20 @@ class TestWer(BaseTest):
 
         self.login_page.login(login_data["SERVER"], login_data["USER_NAME"])
 
-        flag = self.base_page.is_element_by_locator(self.customers_page.CUSTOMER_CARD)
+        flag = self.customers_page.is_choose_customer_page()
         assert flag
 
         server_name = self.settings.get_server()
         assert server_name == login_data["SERVER"]
+
+    """Unregistering device test"""
+
+    def test_logout(self):
+        self.settings = SettingsInApp(self.driver)
+
+        self.settings.unregister_device()
+
+        assert self.login_page.is_login_page()
+
+        self.login_page.click_send_button()
+        assert self.login_page.is_warning_red_text()

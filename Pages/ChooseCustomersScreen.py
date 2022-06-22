@@ -11,6 +11,12 @@ class ChooseCustomerScreen(BasePage):
     def __int__(self, driver):
         super.__init__(driver)
 
+    def is_choose_customer_page(self):
+        if self.is_element_by_locator(self.CUSTOMER_CARD):
+            return True
+        else:
+            return False
+
     def move_to_first_customer(self):
         pass
 

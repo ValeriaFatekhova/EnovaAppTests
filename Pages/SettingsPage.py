@@ -17,22 +17,33 @@ class SettingsInApp(BasePage):
     SWITCH_DEFAULT_LANGUAGE = (By.ID, "com.harman.enova.beta:id/switchDefaultLanguage")
     CUSTOMERS_LIST = (By.ID, "com.harman.enova.beta:id/customerName")
     LANGUAGES_LIST = (By.ID, "com.harman.enova.beta:id/languageName")
+    UNREGISTER_DEVICE_BUTTON = (By.ID, "com.harman.enova.beta:id/unregisterDevice")
 
     def __init__(self, driver):
         super().__init__(driver)
 
-    def get_server(self):
+    def open_settings(self):
+        self.do_click_by_locator(self.SETTINGS_BUTTON)
+
+    def open_device_settings(self):
         self.do_click_by_locator(self.SETTINGS_BUTTON)
         self.do_click_by_locator(self.SETTINGS_DEVICE)
+
+    def return_to_customer_screen(self):
+        self.do_click_by_locator(self.SETTINGS_BACK_BUTTON)
+        self.do_click_by_locator(self.SETTINGS_BACK_BUTTON)
+
+    def unregister_device(self):
+        self.open_device_settings()
+        self.do_click_by_locator(self.UNREGISTER_DEVICE_BUTTON)
+
+    def get_server(self):
+        self.open_device_settings()
         server = self.find_element(self.CURRENT_SERVER)
         server_name = self.get_element_text_by_element(server).split(":")
         print(server_name)
         self.return_to_customer_screen()
         return server_name[0]
-
-    def return_to_customer_screen(self):
-        self.do_click_by_locator(self.SETTINGS_BACK_BUTTON)
-        self.do_click_by_locator(self.SETTINGS_BACK_BUTTON)
 
     def set_common_pause_timeout(self, pauseDetectionTimeoutLayout):
         self.do_click_by_locator(self.SETTINGS_BUTTON)
@@ -44,13 +55,13 @@ class SettingsInApp(BasePage):
         self.do_click_by_locator(self.TIMEOUT_SAVE_BUTTON)
         self.return_to_customer_screen()
 
-    def set_common_audiostreaming_turnon(self):
+    def set_common_audiostreaming_turn_on(self):
         self.do_click_by_locator(self.SETTINGS_BUTTON)
         self.do_click_by_locator(self.SETTINGS_COMMON)
         self.do_click_by_locator(self.AUDIOSTREAMING_SWITCH)
         self.return_to_customer_screen()
 
-    def set_common_transcribe_turnon(self):
+    def set_common_transcribe_turn_on(self):
         self.do_click_by_locator(self.SETTINGS_BUTTON)
         self.do_click_by_locator(self.SETTINGS_COMMON)
         self.do_click_by_locator(self.TRANSCRIBE_MODE_SWITCH)
@@ -73,7 +84,3 @@ class SettingsInApp(BasePage):
                 self.do_click_by_element(element)
                 break
         self.return_to_customer_screen()
-
-    def set_settings_for_wer_test(self, pauseDetectionTimeoutLayout):
-        self.set_common_pause_timeout(pauseDetectionTimeoutLayout)
-        self.set_common_transcribe_turnon()
