@@ -21,6 +21,8 @@ class SettingsInApp(BasePage):
     PRIVACY_POLICY_BUTTON = (By.ID, "com.harman.enova.beta:id/settings_privacy_policy")
     PRIVACY_POLICY_CONTENT = (By.ID, "android:id/content")
     SETTINGS_MAIN_HEADER = (By.ID, "com.harman.enova.beta:id/settings_main_header")
+    SHOW_METRICS_SWITCH = (By.ID, "com.harman.enova.beta:id/showMetricsSwitch")
+    SHOW_VERSIONS_SWITCH = (By.ID, "com.harman.enova.beta:id/showComponentVersionsSwitch")
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -31,6 +33,14 @@ class SettingsInApp(BasePage):
     def open_device_settings(self):
         self.click_by_locator(self.SETTINGS_BUTTON)
         self.click_by_locator(self.SETTINGS_DEVICE)
+
+    def open_common_settings(self):
+        self.click_by_locator(self.SETTINGS_BUTTON)
+        self.click_by_locator(self.SETTINGS_COMMON)
+
+    def open_language_settings(self):
+        self.click_by_locator(self.SETTINGS_BUTTON)
+        self.click_by_locator(self.SETTINGS_LANGUAGE)
 
     def return_to_customer_screen(self):
         if self.is_element_by_locator(self.SETTINGS_MAIN_HEADER):
@@ -52,8 +62,7 @@ class SettingsInApp(BasePage):
         return server_name[0]
 
     def set_common_pause_timeout(self, pauseDetectionTimeoutLayout):
-        self.click_by_locator(self.SETTINGS_BUTTON)
-        self.click_by_locator(self.SETTINGS_COMMON)
+        self.open_common_settings()
         self.click_by_locator(self.PAUSE_DETECTION_TIMEOUT)
         timeout_field = self.find_element(self.TIMEOUT_FIELD)
         self.clear_element_by_element(timeout_field)
@@ -62,20 +71,17 @@ class SettingsInApp(BasePage):
         self.return_to_customer_screen()
 
     def set_common_audiostreaming_turn_on(self):
-        self.click_by_locator(self.SETTINGS_BUTTON)
-        self.click_by_locator(self.SETTINGS_COMMON)
+        self.open_common_settings()
         self.click_by_locator(self.AUDIOSTREAMING_SWITCH)
         self.return_to_customer_screen()
 
     def set_common_transcribe_turn_on(self):
-        self.click_by_locator(self.SETTINGS_BUTTON)
-        self.click_by_locator(self.SETTINGS_COMMON)
+        self.open_common_settings()
         self.click_by_locator(self.TRANSCRIBE_MODE_SWITCH)
         self.return_to_customer_screen()
 
     def change_language(self, customer, language):
-        self.click_by_locator(self.SETTINGS_BUTTON)
-        self.click_by_locator(self.SETTINGS_LANGUAGE)
+        self.open_language_settings()
         switch_default_language = self.find_element(self.SWITCH_DEFAULT_LANGUAGE)
         if self.is_element_checked_by_element(switch_default_language):
             self.click_by_element(switch_default_language)
@@ -103,3 +109,31 @@ class SettingsInApp(BasePage):
 
     def close_privacy_policy(self):
         self.click_back_android()
+
+    def show_metrix_switch_on(self):
+        self.open_common_settings()
+        show_metrix = self.is_element_checked_by_locator(self.SHOW_METRICS_SWITCH)
+        if not self.is_element_checked_by_element(show_metrix):
+            self.click_by_element(show_metrix)
+        self.return_to_customer_screen()
+
+    def show_metrix_switch_off(self):
+        self.open_common_settings()
+        show_metrix = self.is_element_checked_by_locator(self.SHOW_METRICS_SWITCH)
+        if self.is_element_checked_by_element(show_metrix):
+            self.click_by_element(show_metrix)
+        self.return_to_customer_screen()
+
+    def show_versions_switch_on(self):
+        self.open_common_settings()
+        show_versions = self.is_element_checked_by_locator(self.SHOW_VERSIONS_SWITCH)
+        if not self.is_element_checked_by_element(show_versions):
+            self.click_by_element(show_versions)
+        self.return_to_customer_screen()
+
+    def show_versions_switch_off(self):
+        self.open_common_settings()
+        show_versions = self.is_element_checked_by_locator(self.SHOW_VERSIONS_SWITCH)
+        if self.is_element_checked_by_element(show_versions):
+            self.click_by_element(show_versions)
+        self.return_to_customer_screen()

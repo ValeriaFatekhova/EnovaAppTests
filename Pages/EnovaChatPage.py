@@ -8,8 +8,10 @@ class EnovaChatPage(BasePage):
     MIC_BUTTON = (By.ID, "com.harman.enova.beta:id/recordBtn")
     LISTENING_STATE_BUTTON = (By.ID, "com.harman.enova.beta:id/listeningView")
     SERVER_PROCESSING_BUTTON = (By.ID, "com.harman.enova.beta:id/processingView")
-    BACK_BUTTON = (By.ID, "com.harman.enova.beta:id/closeBtn")
+    CHAT_BACK_BUTTON = (By.ID, "com.harman.enova.beta:id/closeBtn")
     CHAT_TEXT = (By.ID, "com.harman.enova.beta:id/requestTextView")
+    METRICS = (By.ID, "com.harman.enova.beta:id/metricsLayout")
+    METRICS_TEXT = (By.ID, "com.harman.enova.beta:id/metricsTextView")
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -42,8 +44,24 @@ class EnovaChatPage(BasePage):
         else:
             return False
 
+    def is_metrics_in_chat(self):
+        if self.is_element_by_locator(self.METRICS):
+            return True
+        else:
+            return False
+
+    def get_metrics_text(self):
+        if self.is_metrics_in_chat():
+            return self.get_element_text_by_locator(self.METRICS_TEXT)
+        else:
+            return None
+
+    def is_data_in_metrix(self):
+        metrics_text = self.get_metrics_text().split(",")
+
+
     def exit_from_chatmode(self):
-        self.click_by_locator(self.BACK_BUTTON)
+        self.click_by_locator(self.CHAT_BACK_BUTTON)
 
     # def play_audio_in_chat(self, audio):
     #     if self.is_listening_mode_on():
