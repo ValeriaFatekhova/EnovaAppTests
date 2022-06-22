@@ -18,24 +18,30 @@ class SettingsInApp(BasePage):
     CUSTOMERS_LIST = (By.ID, "com.harman.enova.beta:id/customerName")
     LANGUAGES_LIST = (By.ID, "com.harman.enova.beta:id/languageName")
     UNREGISTER_DEVICE_BUTTON = (By.ID, "com.harman.enova.beta:id/unregisterDevice")
+    PRIVACY_POLICY_BUTTON = (By.ID, "com.harman.enova.beta:id/settings_privacy_policy")
+    PRIVACY_POLICY_CONTENT = (By.ID, "android:id/content")
+    SETTINGS_MAIN_HEADER = (By.ID, "com.harman.enova.beta:id/settings_main_header")
 
     def __init__(self, driver):
         super().__init__(driver)
 
     def open_settings(self):
-        self.do_click_by_locator(self.SETTINGS_BUTTON)
+        self.click_by_locator(self.SETTINGS_BUTTON)
 
     def open_device_settings(self):
-        self.do_click_by_locator(self.SETTINGS_BUTTON)
-        self.do_click_by_locator(self.SETTINGS_DEVICE)
+        self.click_by_locator(self.SETTINGS_BUTTON)
+        self.click_by_locator(self.SETTINGS_DEVICE)
 
     def return_to_customer_screen(self):
-        self.do_click_by_locator(self.SETTINGS_BACK_BUTTON)
-        self.do_click_by_locator(self.SETTINGS_BACK_BUTTON)
+        if self.is_element_by_locator(self.SETTINGS_MAIN_HEADER):
+            self.click_by_locator(self.SETTINGS_BACK_BUTTON)
+        else:
+            self.click_by_locator(self.SETTINGS_BACK_BUTTON)
+            self.click_by_locator(self.SETTINGS_BACK_BUTTON)
 
     def unregister_device(self):
         self.open_device_settings()
-        self.do_click_by_locator(self.UNREGISTER_DEVICE_BUTTON)
+        self.click_by_locator(self.UNREGISTER_DEVICE_BUTTON)
 
     def get_server(self):
         self.open_device_settings()
@@ -46,41 +52,54 @@ class SettingsInApp(BasePage):
         return server_name[0]
 
     def set_common_pause_timeout(self, pauseDetectionTimeoutLayout):
-        self.do_click_by_locator(self.SETTINGS_BUTTON)
-        self.do_click_by_locator(self.SETTINGS_COMMON)
-        self.do_click_by_locator(self.PAUSE_DETECTION_TIMEOUT)
+        self.click_by_locator(self.SETTINGS_BUTTON)
+        self.click_by_locator(self.SETTINGS_COMMON)
+        self.click_by_locator(self.PAUSE_DETECTION_TIMEOUT)
         timeout_field = self.find_element(self.TIMEOUT_FIELD)
         self.clear_element_by_element(timeout_field)
-        self.do_send_keys_by_element(timeout_field, pauseDetectionTimeoutLayout)
-        self.do_click_by_locator(self.TIMEOUT_SAVE_BUTTON)
+        self.send_keys_by_element(timeout_field, pauseDetectionTimeoutLayout)
+        self.click_by_locator(self.TIMEOUT_SAVE_BUTTON)
         self.return_to_customer_screen()
 
     def set_common_audiostreaming_turn_on(self):
-        self.do_click_by_locator(self.SETTINGS_BUTTON)
-        self.do_click_by_locator(self.SETTINGS_COMMON)
-        self.do_click_by_locator(self.AUDIOSTREAMING_SWITCH)
+        self.click_by_locator(self.SETTINGS_BUTTON)
+        self.click_by_locator(self.SETTINGS_COMMON)
+        self.click_by_locator(self.AUDIOSTREAMING_SWITCH)
         self.return_to_customer_screen()
 
     def set_common_transcribe_turn_on(self):
-        self.do_click_by_locator(self.SETTINGS_BUTTON)
-        self.do_click_by_locator(self.SETTINGS_COMMON)
-        self.do_click_by_locator(self.TRANSCRIBE_MODE_SWITCH)
+        self.click_by_locator(self.SETTINGS_BUTTON)
+        self.click_by_locator(self.SETTINGS_COMMON)
+        self.click_by_locator(self.TRANSCRIBE_MODE_SWITCH)
         self.return_to_customer_screen()
 
     def change_language(self, customer, language):
-        self.do_click_by_locator(self.SETTINGS_BUTTON)
-        self.do_click_by_locator(self.SETTINGS_LANGUAGE)
+        self.click_by_locator(self.SETTINGS_BUTTON)
+        self.click_by_locator(self.SETTINGS_LANGUAGE)
         switch_default_language = self.find_element(self.SWITCH_DEFAULT_LANGUAGE)
         if self.is_element_checked_by_element(switch_default_language):
-            self.do_click_by_element(switch_default_language)
+            self.click_by_element(switch_default_language)
         customers = self.find_elements(self.CUSTOMERS_LIST)
         for element in customers:
             if self.get_element_text_by_element(element) == customer:
-                self.do_click_by_element(element)
+                self.click_by_element(element)
                 break
         languages = self.find_elements(self.LANGUAGES_LIST)
         for element in languages:
             if self.get_element_text_by_element(element) == language:
-                self.do_click_by_element(element)
+                self.click_by_element(element)
                 break
         self.return_to_customer_screen()
+
+    def open_privacy_policy(self):
+        self.open_settings()
+        self.click_by_locator(self.PRIVACY_POLICY_BUTTON)
+
+    def is_privacy_policy(self):
+        if self.is_element_by_locator(self.PRIVACY_POLICY_CONTENT):
+            return True
+        else:
+            return False
+
+    def close_privacy_policy(self):
+        self.click_back_android()

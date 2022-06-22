@@ -31,4 +31,4 @@ class ChooseCustomerScreen(BasePage):
 
     def open_chatmode_for_customer(self, customer):
         self.select_customer(customer)
-        self.do_click_by_locator(self.CHAT_BUTTON)
+        self.click_by_locator(self.CHAT_BUTTON)

@@ -16,13 +16,13 @@ class EnovaChatPage(BasePage):
         #self.a = Audio()
 
     def skip_tutorial(self):
-        self.do_click_by_locator(self.SKIP_TUTORIAL_BUTTON)
+        self.click_by_locator(self.SKIP_TUTORIAL_BUTTON)
 
     def listening_mode_on(self):
         if self.is_element_by_locator(self.SKIP_TUTORIAL_BUTTON):
             self.skip_tutorial()
         if self.is_listening_mode_off():
-            self.do_click_by_locator(self.MIC_BUTTON)
+            self.click_by_locator(self.MIC_BUTTON)
 
     def is_listening_mode_on(self):
         if self.is_element_by_locator(self.LISTENING_STATE_BUTTON):
@@ -43,7 +43,7 @@ class EnovaChatPage(BasePage):
             return False
 
     def exit_from_chatmode(self):
-        self.do_click_by_locator(self.BACK_BUTTON)
+        self.click_by_locator(self.BACK_BUTTON)
 
     # def play_audio_in_chat(self, audio):
     #     if self.is_listening_mode_on():

@@ -7,16 +7,19 @@ class BasePage:
     def __init__(self, driver):
         self.driver = driver
 
-    def do_click_by_locator(self, locator):
+    def click_back_android(self):
+        self.driver.back()
+
+    def click_by_locator(self, locator):
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(locator)).click()
 
-    def do_click_by_element(self, element):
+    def click_by_element(self, element):
         element.click()
 
-    def do_send_keys_by_locator(self, locator, text):
+    def send_keys_by_locator(self, locator, text):
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(locator)).send_keys(text)
 
-    def do_send_keys_by_element(self, element, text):
+    def send_keys_by_element(self, element, text):
         element.send_keys(text)
 
     def clear_element_by_locator(self, locator):

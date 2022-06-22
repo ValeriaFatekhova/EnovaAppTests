@@ -28,7 +28,8 @@ class TestEnovaApp(BaseTest):
 
     """Unregistering device test"""
 
-    def test_logout(self):
+    @pytest.mark.parametrize("login_data", [TestData.LOGIN_DATA])
+    def test_logout(self, login_data):
         self.settings = SettingsInApp(self.driver)
 
         self.settings.unregister_device()
@@ -37,3 +38,15 @@ class TestEnovaApp(BaseTest):
 
         self.login_page.click_send_button()
         assert self.login_page.is_warning_red_text()
+
+        self.login_page.login(login_data["SERVER"], login_data["USER_NAME"])
+
+    """Privacy Policy checking test"""
+
+    def test_privacy_policy(self):
+        self.settings.open_privacy_policy()
+
+        assert self.settings.is_privacy_policy()
+
+        self.settings.close_privacy_policy()
+        self.settings.return_to_customer_screen()
