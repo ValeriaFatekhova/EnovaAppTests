@@ -13,7 +13,7 @@ class TestData:
     CUSTOMER = "Enova"
 
     AUDIO_FOR_SINGLE_INTENTS = [
-        ("/AudioData/what time is it.mp3", "What time is it", ""),
+        ("../TestData/AudioData/what time is it.mp3", "What time is it", ""),
 
         ]
 

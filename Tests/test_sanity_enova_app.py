@@ -28,29 +28,43 @@ class TestEnovaApp(BaseTest):
 
     """Privacy Policy checking test"""
 
-    def test_privacy_policy(self):
-        self.settings.open_privacy_policy()
-
-        assert self.settings.is_privacy_policy()
-
-        self.settings.close_privacy_policy()
-        self.settings.return_to_customer_screen()
+    # def test_privacy_policy(self):
+    #     self.settings = SettingsInApp(self.driver)
+    #     self.customers_page = ChooseCustomerScreen(self.driver)
+    #
+    #     self.customers_page.customer_page_is_opened()
+    #     self.settings.open_privacy_policy()
+    #
+    #     assert self.settings.is_privacy_policy()
+    #
+    #     self.settings.close_privacy_policy()
+    #     self.settings.return_to_customer_screen()
 
     """Show metrics test"""
 
     def test_show_metrics(self):
+        self.settings = SettingsInApp(self.driver)
+        self.customers_page = ChooseCustomerScreen(self.driver)
+        self.enova_chat = EnovaChatPage(self.driver)
+
+        self.customers_page.customer_page_is_opened()
+
         self.settings.show_metrix_switch_on()
         self.customers_page.open_chatmode_for_customer("Enova")
         self.enova_chat.send_question_in_chat_not_dialog(TestData.AUDIO_FOR_SINGLE_INTENTS[0][0])
 
         assert self.enova_chat.is_metrics_in_chat(), "Metrics is not present in chat after"
-        assert self.enova_chat.is_data_in_metrics(), "Metrics are empty, no data is in metrics"
+        assert self.enova_chat.is_data_in_metrix(), "Metrics are empty, no data is in metrics"
 
     """Unregistering device test"""
 
     @pytest.mark.parametrize("login_data", [TestData.LOGIN_DATA])
     def test_logout(self, login_data):
+        self.login_page = LoginPage(self.driver)
         self.settings = SettingsInApp(self.driver)
+        self.customers_page = ChooseCustomerScreen(self.driver)
+
+        self.customers_page.customer_page_is_opened()
 
         self.settings.unregister_device()
 

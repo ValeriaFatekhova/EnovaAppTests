@@ -23,6 +23,8 @@ class SettingsInApp(BasePage):
     SETTINGS_MAIN_HEADER = (By.ID, "com.harman.enova.beta:id/settings_main_header")
     SHOW_METRICS_SWITCH = (By.ID, "com.harman.enova.beta:id/showMetricsSwitch")
     SHOW_VERSIONS_SWITCH = (By.ID, "com.harman.enova.beta:id/showComponentVersionsSwitch")
+    MAX_AUDIO_LENGTH = (By.ID, "com.harman.enova.beta:id/maxAudioLengthTitle")
+    EXPORT_METRICS = (By.ID, "com.harman.enova.beta:id/exportMetrics")
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -38,16 +40,17 @@ class SettingsInApp(BasePage):
         self.click_by_locator(self.SETTINGS_BUTTON)
         self.click_by_locator(self.SETTINGS_COMMON)
 
+    def scroll_common_settings(self):
+        element = self.find_element(self.SHOW_METRICS_SWITCH)
+        self.scroll_from_element_to_element(element)
+
     def open_language_settings(self):
         self.click_by_locator(self.SETTINGS_BUTTON)
         self.click_by_locator(self.SETTINGS_LANGUAGE)
 
     def return_to_customer_screen(self):
-        if self.is_element_by_locator(self.SETTINGS_MAIN_HEADER):
-            self.click_by_locator(self.SETTINGS_BACK_BUTTON)
-        else:
-            self.click_by_locator(self.SETTINGS_BACK_BUTTON)
-            self.click_by_locator(self.SETTINGS_BACK_BUTTON)
+        self.click_by_locator(self.SETTINGS_BACK_BUTTON)
+        self.click_by_locator(self.SETTINGS_BACK_BUTTON)
 
     def unregister_device(self):
         self.open_device_settings()
@@ -112,9 +115,9 @@ class SettingsInApp(BasePage):
 
     def show_metrix_switch_on(self):
         self.open_common_settings()
-        show_metrix = self.is_element_checked_by_locator(self.SHOW_METRICS_SWITCH)
-        if not self.is_element_checked_by_element(show_metrix):
-            self.click_by_element(show_metrix)
+        #self.scroll_common_settings()
+        show_metrix = self.find_element(self.SHOW_METRICS_SWITCH)
+        self.click_by_element(show_metrix)
         self.return_to_customer_screen()
 
     def show_metrix_switch_off(self):
