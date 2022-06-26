@@ -1,3 +1,4 @@
+from playsound import playsound
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
@@ -67,3 +68,5 @@ class BasePage:
     def pause(self, seconds):
         time.sleep(seconds)
 
+    def play(self, audio_path):
+        playsound(audio_path)

@@ -1,6 +1,5 @@
 from selenium.webdriver.common.by import By
 from Pages.BasePage import BasePage
-#from AudioData.CheckAudio import Audio
 
 
 class EnovaChatPage(BasePage):
@@ -15,7 +14,6 @@ class EnovaChatPage(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver)
-        #self.a = Audio()
 
     def skip_tutorial(self):
         self.click_by_locator(self.SKIP_TUTORIAL_BUTTON)
@@ -58,7 +56,11 @@ class EnovaChatPage(BasePage):
 
     def is_data_in_metrix(self):
         metrics_text = self.get_metrics_text().split(",")
-
+        metrix = dict(metrics_text)
+        if None not in metrix.values() and "" not in metrix.values():
+            return True
+        else:
+            return False
 
     def exit_from_chatmode(self):
         self.click_by_locator(self.CHAT_BACK_BUTTON)
@@ -69,3 +71,14 @@ class EnovaChatPage(BasePage):
     #     while not self.is_listening_mode_off():
     #         self.pause(10)
     #     return self.get_element_text_by_locator(self.CHAT_TEXT)
+
+    def send_question_in_chat_not_dialog(self, audio_path):
+        self.listening_mode_on()
+        self.play(audio_path)
+        self.is_listening_mode_off()
+
+    def get_answer_from_chat(self):
+        pass
+
+    def check_answer_in_chat(self):
+        pass
