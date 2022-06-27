@@ -1,26 +1,33 @@
 import pytest
 from appium import webdriver
+
+from Pages.ChooseCustomersScreen import ChooseCustomerScreen
+from Pages.LoginPage import LoginPage
+from Pages.SettingsPage import SettingsInApp
 from TestData.config import TestData
 
 
-@pytest.fixture(scope='class')
-def init_driver(request):
+@pytest.fixture(scope='function')
+def driver(request):
     test_data = TestData()
 
-    package = 'com.harman.enova.beta'
-    dc = dict()
-    dc['app'] = test_data.APPLICATION
-    dc['appPackage'] = package
-    dc['appActivity'] = 'com.harman.enova.MainActivity'
-    dc['platformName'] = 'Android'
-    dc['deviceName'] = test_data.DEVICE
-    dc['autoGrantPermissions'] = True
-    dc['adbExecTimeout'] = 500000
-    dc['newCommandTimeout'] = 500000
-
-    driver = webdriver.Remote("http://localhost:4723/wd/hub", dc)
-    driver.activate_app(package)
+    driver = webdriver.Remote("http://localhost:4723/wd/hub", test_data.DESIRED_CAPABILITIES)
     request.cls.driver = driver
+
     yield
     driver.close_app()
     driver.quit()
+
+
+@pytest.fixture(scope='function', params=[("US West", "tbd@gmail.com", "Websocket", "English")])
+def login(driver, request):
+    server = request.param[0]
+    user = request.param[1]
+    protocol = request.param[2]
+    language = request.param[3]
+
+    login_page = LoginPage(driver)
+
+    login_page.login(server, user)
+
+
