@@ -12,19 +12,19 @@ class TestEnovaApp(BaseTest):
 
     """Registering device test"""
 
-    @pytest.mark.parametrize("login_data", [TestData.LOGIN_DATA])
-    def test_login(self, login_data):
-        self.login_page = LoginPage(self.driver)
-        self.settings = SettingsInApp(self.driver)
-        self.customers_page = ChooseCustomerScreen(self.driver)
-
-        self.login_page.login(login_data["SERVER"], login_data["USER_NAME"])
-
-        flag = self.customers_page.is_choose_customer_page()
-        assert flag
-
-        server_name = self.settings.get_server()
-        assert server_name == login_data["SERVER"]
+    # @pytest.mark.parametrize("login_data", [TestData.LOGIN_DATA])
+    # def test_login(self, login_data):
+    #     self.login_page = LoginPage(self.driver)
+    #     self.settings = SettingsInApp(self.driver)
+    #     self.customers_page = ChooseCustomerScreen(self.driver)
+    #
+    #     self.login_page.login(login_data["SERVER"], login_data["USER_NAME"])
+    #
+    #     flag = self.customers_page.is_choose_customer_page()
+    #     assert flag
+    #
+    #     server_name = self.settings.get_server()
+    #     assert server_name == login_data["SERVER"]
 
     """Privacy Policy checking test"""
 

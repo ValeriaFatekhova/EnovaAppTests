@@ -1,9 +1,6 @@
 import pytest
 from appium import webdriver
-
-from Pages.ChooseCustomersScreen import ChooseCustomerScreen
 from Pages.LoginPage import LoginPage
-from Pages.SettingsPage import SettingsInApp
 from TestData.config import TestData
 
 
@@ -12,6 +9,7 @@ def driver(request):
     test_data = TestData()
 
     driver = webdriver.Remote("http://localhost:4723/wd/hub", test_data.DESIRED_CAPABILITIES)
+    print(driver)
     request.cls.driver = driver
 
     yield
@@ -26,8 +24,8 @@ def login(driver, request):
     protocol = request.param[2]
     language = request.param[3]
 
-    login_page = LoginPage(driver)
+    login_page = LoginPage(request.cls.driver)
 
-    login_page.login(server, user)
+    login_page.login(server, user, protocol, language)
 
 

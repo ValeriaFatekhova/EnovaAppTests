@@ -14,7 +14,7 @@ class TestData:
                             'newCommandTimeout': 500000
                             }
 
-    LOGIN_DATA = {"SERVER": "US West", "USER_NAME": "tbd@gmail.com", "PROTOCOL": "Websocket", "LANGUAGE": "English"}
+    LOGIN_DATA = {"SERVER": "US West", "USER_NAME": "tbd@gmail.com", "PROTOCOL": "WebSocket", "LANGUAGE": "English"}
     SETTINGS_DATA = {"pauseDetectionTimeoutLayout": "5000"}
     CUSTOMER = "Enova"
 

@@ -8,6 +8,7 @@ class LoginPage(BasePage):
     PROTOCOL = (By.ID, "com.harman.enova.beta:id/selectProtocolButton")
     SEND_BUTTON = (By.ID, "com.harman.enova.beta:id/submitBtn")
     SERVERS_LIST = (By.ID, "com.harman.enova.beta:id/serverName")
+    PROTOCOL_LIST = (By.ID, "com.harman.enova.beta:id/protocolName")
     SKIP_SETTINGS_BUTTON = (By.ID, "com.harman.enova.beta:id/continueButton")
     REGISTRATION_TITLE = (By.ID, "com.harman.enova.beta:id/registrationTitle")
     WARNING_INCORRECT_EMAIL = (By.ID, "com.harman.enova.beta:id/errorText")
@@ -32,6 +33,14 @@ class LoginPage(BasePage):
                 self.click_by_element(element)
                 break
 
+    def set_protocol(self, protocol):
+        self.click_by_locator(self.PROTOCOL)
+        elements = self.find_elements(self.PROTOCOL_LIST)
+        for element in elements:
+            if self.get_element_text_by_element(element) == protocol:
+                self.click_by_element(element)
+                break
+
     def click_send_button(self):
         self.click_by_locator(self.SEND_BUTTON)
 
@@ -47,8 +56,9 @@ class LoginPage(BasePage):
         continue_button = self.find_element(self.SKIP_SETTINGS_BUTTON)
         self.click_by_element(continue_button)
 
-    def login(self, server_name, user_name):
+    def login(self, server_name, user_name, protocol, language):
         self.set_email(user_name)
         self.set_server(server_name)
+        self.set_protocol(protocol)
         self.click_send_button()
         self.skip_settings()
