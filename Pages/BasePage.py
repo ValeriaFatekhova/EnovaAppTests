@@ -1,6 +1,4 @@
-from appium.webdriver.common.touch_action import TouchAction
 from playsound import playsound
-from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
@@ -67,14 +65,15 @@ class BasePage:
         y = element.location['y'] + element.size['height'] / 2
         self.driver.swipe(0, y, x, y, 200)
 
-    def scroll_from_element_to_element(self, element):
-        actions = ActionChains(self.driver)
-        actions.move_to_element(element)
-        #actions.click(hidden_submenu)
-        actions.perform()
+    def swipe_top(self):
+        x = self.driver.get_window_size()["width"] / 2
+        y = self.driver.get_window_size()["height"] - 50
+        print(y)
+        self.driver.swipe(x, y, x, 50, 400)
 
     def pause(self, seconds):
         time.sleep(seconds)
 
     def play(self, audio_path):
+        print(audio_path)
         playsound(audio_path)

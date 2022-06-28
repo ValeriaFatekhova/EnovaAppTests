@@ -41,8 +41,7 @@ class SettingsInApp(BasePage):
         self.click_by_locator(self.SETTINGS_COMMON)
 
     def scroll_common_settings(self):
-        element = self.find_element(self.SHOW_METRICS_SWITCH)
-        self.scroll_from_element_to_element(element)
+        self.swipe_top()
 
     def open_language_settings(self):
         self.click_by_locator(self.SETTINGS_BUTTON)
@@ -115,7 +114,7 @@ class SettingsInApp(BasePage):
 
     def show_metrix_switch_on(self):
         self.open_common_settings()
-        #self.scroll_common_settings()
+        self.scroll_common_settings()
         show_metrix = self.find_element(self.SHOW_METRICS_SWITCH)
         self.click_by_element(show_metrix)
         self.return_to_customer_screen()

@@ -19,7 +19,7 @@ class TestData:
     CUSTOMER = "Enova"
 
     AUDIO_FOR_SINGLE_INTENTS = [
-        ("../TestData/AudioData/what time is it.mp3", "What time is it", ""),
+        (r"C:\Users\ruvkuminov\TestsAutomation\EnovaAndroidTests\TestData\AudioData\what_time_is_it.mp3", "What time is it", ""),
 
     ]
 
