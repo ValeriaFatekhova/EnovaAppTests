@@ -12,6 +12,8 @@ class LoginPage(BasePage):
     SKIP_SETTINGS_BUTTON = (By.ID, "com.harman.enova.beta:id/continueButton")
     REGISTRATION_TITLE = (By.ID, "com.harman.enova.beta:id/registrationTitle")
     WARNING_INCORRECT_EMAIL = (By.ID, "com.harman.enova.beta:id/errorText")
+    CUSTOMERS_LANGUAGE_LIST = (By.ID, "com.harman.enova.beta:id/customerLanguage")
+    LANGUAGES = (By.ID, "com.harman.enova.beta:id/languageName")
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -50,15 +52,28 @@ class LoginPage(BasePage):
         else:
             return False
 
-    def skip_settings(self):
+    def change_language_skip_settings(self, language):
         continue_button = self.find_element(self.SKIP_SETTINGS_BUTTON)
         self.click_by_element(continue_button)
+        self.select_language_after_login(language)
         continue_button = self.find_element(self.SKIP_SETTINGS_BUTTON)
         self.click_by_element(continue_button)
+
+    def select_language_after_login(self, language):
+        customers_language_list = self.find_elements(self.CUSTOMERS_LANGUAGE_LIST)
+        for i in range(len(customers_language_list)):
+            self.pause(1)
+            element = self.find_elements(self.CUSTOMERS_LANGUAGE_LIST)[i]
+            self.click_by_element(element)
+            languages = self.find_elements(self.LANGUAGES)
+            for lang in languages:
+                if self.get_element_text_by_element(lang) == language:
+                    self.click_by_element(lang)
+                    break
 
     def login(self, server_name, user_name, protocol, language):
         self.set_email(user_name)
         self.set_server(server_name)
         self.set_protocol(protocol)
         self.click_send_button()
-        self.skip_settings()
+        self.change_language_skip_settings(language)

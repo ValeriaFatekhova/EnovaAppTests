@@ -9,7 +9,6 @@ def driver(request):
     test_data = TestData()
 
     driver = webdriver.Remote("http://localhost:4723/wd/hub", test_data.DESIRED_CAPABILITIES)
-    print(driver)
     request.cls.driver = driver
 
     yield
@@ -17,7 +16,7 @@ def driver(request):
     driver.quit()
 
 
-@pytest.fixture(scope='function', params=[("US West", "tbd@gmail.com", "Websocket", "English")])
+@pytest.fixture(scope='function', params=[("US West", "tbd@gmail.com", "WebSocket", "English")])
 def login(driver, request):
     server = request.param[0]
     user = request.param[1]
