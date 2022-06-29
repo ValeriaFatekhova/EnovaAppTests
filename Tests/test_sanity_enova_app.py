@@ -61,6 +61,27 @@ class TestEnovaApp(BaseTest):
         with allure.step("Check that metrics contained not empty data"):
             assert self.enova_chat.is_data_in_metrix(), "Metrics are empty, no data is in metrics"
 
+    """Show versions components test"""
+
+    @allure.description("Show versions components test")
+    def test_show_versions(self):
+        self.settings = SettingsInApp(self.driver)
+        self.customers_page = ChooseCustomerScreen(self.driver)
+        self.enova_chat = EnovaChatPage(self.driver)
+
+        with allure.step("Switch on 'Show versions' option in Settings"):
+            self.show_versions_switch_on()
+        with allure.step("Open chat for Enova customer"):
+            self.customers_page.open_chatmode_for_customer("Enova")
+        with allure.step("Make request in chat"):
+            self.enova_chat.send_question_in_chat_not_dialog(
+                r"C:\Users\ruvkuminov\TestsAutomation\EnovaAndroidTests\TestData\AudioData\what_time_is_it.mp3")
+
+        with allure.step("Check that metrics are displayed in chat under system answer"):
+            assert self.enova_chat.is_metrics_in_chat(), "Metrics is not present in chat after"
+        with allure.step("Check that metrics contained not empty data"):
+            assert self.enova_chat.is_data_in_metrix(), "Metrics are empty, no data is in metrics"
+
     """Unregistering device test"""
 
     @allure.description("Unregistering device test")

@@ -128,6 +128,7 @@ class SettingsInApp(BasePage):
 
     def show_versions_switch_on(self):
         self.open_common_settings()
+        self.scroll_common_settings()
         show_versions = self.is_element_checked_by_locator(self.SHOW_VERSIONS_SWITCH)
         if not self.is_element_checked_by_element(show_versions):
             self.click_by_element(show_versions)

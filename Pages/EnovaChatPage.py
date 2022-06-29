@@ -56,7 +56,10 @@ class EnovaChatPage(BasePage):
 
     def is_data_in_metrix(self):
         metrics_text = self.get_metrics_text().split(",")
-        metrix = dict(metrics_text)
+        metrix = dict()
+        for m in metrics_text:
+            temp = [m.split("=")]
+            metrix[temp[0][0]] = temp[0][1]
         if None not in metrix.values() and "" not in metrix.values():
             return True
         else:
